@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.tinycloud.tinyurl.common.annotation.AccessLimit;
 import org.tinycloud.tinyurl.common.constant.GlobalConstant;
 import org.tinycloud.tinyurl.common.model.ApiResult;
+import org.tinycloud.tinyurl.common.utils.IPAddressUtils2;
 import org.tinycloud.tinyurl.common.utils.LocalHostUtils;
 import org.tinycloud.tinyurl.common.utils.UrlUtils;
 import org.tinycloud.tinyurl.function.portal.dto.GenerateDto;
@@ -93,7 +94,8 @@ public class PortalController {
             tUrlMap.setExpireTime(expireDate);
             tUrlMap.setRemark("门户平台生成");
             tUrlMap = urlMapService.generateAndSave(tUrlMap);
-            String host = LocalHostUtils.getLocalHost();
+//            String host = LocalHostUtils.getLocalHost();
+            String host = IPAddressUtils2.getPublicIPAddress();
             return ApiResult.success("http://" + host + ":" + environment.getProperty("server.port") + "/" + tUrlMap.getSurl(), "转换短链成功！");
         }
         return ApiResult.fail("请输入正确的网址链接，注意以http://或https://开头");
